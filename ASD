@@ -1,0 +1,24 @@
+delimiter //
+create procedure sp_ListarAutores ()
+begin
+	select nome from autor;
+end;
+//
+create procedure sp_LivrosPorCategoria(NomeCategoria VARCHAR(100))
+begin
+	select titulo as Livro, nome as Categoria
+    from livro inner join categoria
+    where categoria.Nome = NomeCategoria and livro.Categoria_ID = categoria.Categoria_ID;
+end;
+//
+create procedure sp_ContarLivrosPorCategoria(NomeCategoria VARCHAR(100))
+begin
+	select nome as Categoria, COUNT(*) AS QUANTIDADE
+    from livro inner join categoria
+    where categoria.Nome = NomeCategoria and livro.Categoria_ID = categoria.Categoria_ID
+    group by categoria.Nome;
+end;
+//
+delimiter ;
+drop procedure  sp_ContarLivrosPorCategoria;
+call sp_ContarLivrosPorCategoria ('Ciência');
